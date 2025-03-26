@@ -20,18 +20,21 @@ class AuthManager:
         """Verify if a password matches its hash."""
         return bcrypt.checkpw(plain_password.encode(), hashed_password.encode())
 
-    def register_user(self, username: str, password: str) -> str:
+    def register_user(self, username: str, password: str, repassword: str) -> str:
         """Registers a new user if the username is not taken."""
-        query = self.db.execute_query("SELECT * FROM users WHERE username = ?", (username,))
+        if password != repassword:
+            return "Passwords do not match."
 
-        if query:
-            return "Username already taken."
-
-        elif len(username) < MIN_USERNAME_LENGTH:
+        if len(username) < MIN_USERNAME_LENGTH:
             return f"Username must be at least {MIN_USERNAME_LENGTH} characters long."
 
         elif len(password) < MIN_PASSWORD_LENGTH:
             return f"Password must be at least {MIN_PASSWORD_LENGTH} characters long."
+    
+        query = self.db.execute_query("SELECT * FROM users WHERE username = ?", (username,))
+
+        if query:
+            return "Username already taken."
 
         hashed_password = self.hash_password(password)
         key_salt = EncryptionManager.generate_salt()

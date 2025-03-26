@@ -1,4 +1,3 @@
 bcrypt
-pycryptodome
 customtkinter
 pycryptodome

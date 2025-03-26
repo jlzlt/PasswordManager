@@ -1,7 +1,7 @@
 import customtkinter as ctk
 import tkinter as tk
-from database import DatabaseManager
 from auth import AuthManager
+from database import DatabaseManager
 from passwords_manager import PasswordsManager
 
 ctk.set_appearance_mode("dark")
@@ -11,13 +11,25 @@ class PasswordManagerGUI:
     def __init__(self, root):     
         self.root = root
         self.root.title("Password Manager")
-        self.center_window(300, 250)  
+        self.center_window(350, 300)          
 
         # Configure grid weights for the root window
         self.root.grid_rowconfigure(0, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
 
-        # Login page
+        # AuthManager instance for login
+        self.auth = AuthManager()
+        self.db = DatabaseManager()
+        self.pwman = None
+
+        # Call the index method to set up the login page
+        self.index() 
+
+    def index(self):        
+        self.root.title("Password Manager - Login")  
+        self.root.resizable(False, False)
+
+        # Create and display login page
         self.login_frame = ctk.CTkFrame(self.root)
         self.login_frame.grid(row=0, column=0, padx=20, pady=20)
 
@@ -38,18 +50,14 @@ class PasswordManagerGUI:
         self.login_button.grid(row=2, column=0, columnspan=2, pady=(10, 5))
 
         # Register button
-        self.login_button = ctk.CTkButton(self.login_frame, text="Register", command=self.register)
-        self.login_button.grid(row=3, column=0, columnspan=2, pady=5)
+        self.register_button = ctk.CTkButton(self.login_frame, text="Register", command=lambda: (self.login_frame.destroy(), self.registration()))
+        self.register_button.grid(row=3, column=0, columnspan=2, pady=5)
 
         # Error label
         self.error_label = ctk.CTkLabel(self.login_frame, text="")
         self.error_label.grid(row=4, column=0, columnspan=2, pady=5)
 
-        # AuthManager instance for login
-        self.auth = AuthManager()
-        self.db = DatabaseManager()
-        self.pwman = None
-
+        # Bind the Return key to the login function (for now)
         self.root.bind("<Return>", lambda event: self.login())
 
     def center_window(self, width=300, height=300):
@@ -75,8 +83,58 @@ class PasswordManagerGUI:
         else:
             self.error_label.configure(text=login_status)
 
+    def registration(self):
+        self.root.title("Password Manager - Register") 
+        self.root.resizable(False, False)
+        
+        # Register page
+        self.register_frame = ctk.CTkFrame(self.root)
+        self.register_frame.grid(row=0, column=0, padx=20, pady=20)
+
+        # Username label and entry
+        self.username_label = ctk.CTkLabel(self.register_frame, text="Username:")
+        self.username_label.grid(row=0, column=0, padx=(20,5), pady=(20,5))
+        self.username_entry = ctk.CTkEntry(self.register_frame)
+        self.username_entry.grid(row=0, column=1, padx=(5, 20), pady=(20,5))
+
+        # Password label and entry
+        self.password_label = ctk.CTkLabel(self.register_frame, text="Password:")
+        self.password_label.grid(row=1, column=0, padx=(20,5), pady=5)
+        self.password_entry = ctk.CTkEntry(self.register_frame, show="*")
+        self.password_entry.grid(row=1, column=1, padx=(5,20), pady=5)
+
+        # Re-enter password label and entry
+        self.repassword_label = ctk.CTkLabel(self.register_frame, text="Re-Enter Password:")
+        self.repassword_label.grid(row=2, column=0, padx=(20,5), pady=5)
+        self.repassword_entry = ctk.CTkEntry(self.register_frame, show="*")
+        self.repassword_entry.grid(row=2, column=1, padx=(5,20), pady=5)
+
+        # Register button
+        self.register_button = ctk.CTkButton(self.register_frame, text="Register", command=self.register)
+        self.register_button.grid(row=3, column=0, columnspan=2, pady=(10, 5))
+
+        # Login button
+        self.login_button = ctk.CTkButton(self.register_frame, text="Login", command=lambda: (self.register_frame.destroy(), self.index()))
+        self.login_button.grid(row=4, column=0, columnspan=2, pady=5)
+
+        # Error label
+        self.error_label = ctk.CTkLabel(self.register_frame, text="")
+        self.error_label.grid(row=5, column=0, columnspan=2, pady=5)
+
+        self.root.bind("<Return>", lambda event: self.register())
+
     def register(self):
-        pass
+        username = self.username_entry.get()
+        password = self.password_entry.get()
+        repassword = self.repassword_entry.get()
+
+        register_status = self.auth.register_user(username, password, repassword)
+
+        if register_status == "Registration successful.":
+            self.register_frame.destroy()
+            self.index()
+        else:
+            self.error_label.configure(text=register_status)
 
     def open_dashboard(self):
         self.center_window(600, 600)
