@@ -30,7 +30,8 @@ class DatabaseManager:
                     CREATE TABLE IF NOT EXISTS passwords (
                         entry_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                         user_id INTEGER NOT NULL,
-                        website TEXT NOT NULL,
+                        name TEXT NOT NULL,
+                        website TEXT,
                         username TEXT NOT NULL,
                         password TEXT NOT NULL,
                         iv TEXT NOT NULL,

@@ -12,22 +12,23 @@ class PasswordsManager:
         self.user_id = user_id
         self.user_salt = user_salt
 
-    def add_entry(self, website: str, username: str, password: str, comment: str = None):
+    def add_entry(self, name: str, username: str, password: str, website: str = None, comment: str = None):
         # Check user inputs
-        if not website:
-            return "Website field cannot be empty."
+        if not name:
+            return "Name field cannot be empty."
         elif not username:
             return "Username field cannot be empty."
         elif not password:
             return "Password field cannot be empty."
         comment_value = comment if comment else None
+        website_value = website if website else None
 
         enc = EncryptionManager(self.user_password, self.user_salt, self.enc_encryption_key)
         encrypted_password, iv = enc.encrypt_password(password)
 
         result = self.db.execute_query(
-            "INSERT INTO passwords (user_id, website, username, password, iv, comment) VALUES (?, ?, ?, ?, ?, ?)",
-            (self.user_id, website, username, encrypted_password, iv, comment_value)
+            "INSERT INTO passwords (user_id, name, username, password, iv, website, comment) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (self.user_id, name, username, encrypted_password, iv, website_value, comment_value)
             )
 
         if result:
@@ -49,27 +50,27 @@ class PasswordsManager:
         except Exception as e:
             logging.error(f"Failed fetch entry #{entry_id} from passwords table: {e}")
             raise RuntimeError(f"Error retrieving entry #{entry_id}: {e}") from e
-
-    def update_website(self, entry_id: int, website: str):
-        if not website:
-            return "Website field cannot be empty."
+        
+    def update_name(self, entry_id: int, name: str):
+        if not name:
+            return "Name field cannot be empty."
 
         try:
             rows_affected = self.db.execute_query(
-                "UPDATE passwords SET website = ?, date_modified = CURRENT_TIMESTAMP WHERE entry_id = ? AND user_id = ?",
-                (website, entry_id, self.user_id)
+                "UPDATE passwords SET name = ?, date_modified = CURRENT_TIMESTAMP WHERE entry_id = ? AND user_id = ?",
+                (name, entry_id, self.user_id)
                 )
 
             if rows_affected == 0:
                 logging.warning(f"Entry #{entry_id} cannot be accessed.")
                 return "Entry cannot be accessed."
 
-            logging.info(f"Successfully updated website for entry #{entry_id}.")
-            return "Website updated successfully."
+            logging.info(f"Successfully updated name for entry #{entry_id}.")
+            return "Name updated successfully."
 
         except Exception as e:
-            logging.error(f"Failed to update website field for entry #{entry_id}: {e}")
-            raise RuntimeError(f"Failed to update website field for entry #{entry_id}: {e}") from e
+            logging.error(f"Failed to update name field for entry #{entry_id}: {e}")
+            raise RuntimeError(f"Failed to update name field for entry #{entry_id}: {e}") from e
 
     def update_username(self, entry_id: int, username: str):
         if not username:
@@ -91,6 +92,25 @@ class PasswordsManager:
         except Exception as e:
             logging.error(f"Failed to update username field for entry #{entry_id}: {e}")
             raise RuntimeError(f"Failed to update username field for entry #{entry_id}: {e}") from e
+        
+    def update_website(self, entry_id: int, website: str):
+        try:
+            website_value = website if website else None
+            rows_affected = self.db.execute_query(
+                "UPDATE passwords SET website = ?, date_modified = CURRENT_TIMESTAMP WHERE entry_id = ? AND user_id = ?",
+                (website_value, entry_id, self.user_id)
+                )
+
+            if rows_affected == 0:
+                logging.warning(f"Entry #{entry_id} cannot be accessed.")
+                return "Entry cannot be accessed."
+
+            logging.info(f"Successfully updated website for entry #{entry_id}.")
+            return "Website updated successfully."
+
+        except Exception as e:
+            logging.error(f"Failed to update website field for entry #{entry_id}: {e}")
+            raise RuntimeError(f"Failed to update website field for entry #{entry_id}: {e}") from e
 
     def update_comment(self, entry_id: int, comment: str):
         try:

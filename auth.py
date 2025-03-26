@@ -22,14 +22,14 @@ class AuthManager:
 
     def register_user(self, username: str, password: str, repassword: str) -> str:
         """Registers a new user if the username is not taken."""
-        if password != repassword:
-            return "Passwords do not match."
-
         if len(username) < MIN_USERNAME_LENGTH:
             return f"Username must be at least {MIN_USERNAME_LENGTH} characters long."
 
         elif len(password) < MIN_PASSWORD_LENGTH:
             return f"Password must be at least {MIN_PASSWORD_LENGTH} characters long."
+        
+        elif password != repassword:
+            return "Passwords do not match."
     
         query = self.db.execute_query("SELECT * FROM users WHERE username = ?", (username,))
 

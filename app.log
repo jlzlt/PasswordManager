@@ -114,3 +114,66 @@
 2025-03-26 09:37:19,186 - INFO - User #2 logged in successfully.
 2025-03-26 10:53:27,208 - INFO - User ela registered successfully.
 2025-03-26 10:53:34,984 - INFO - User #3 logged in successfully.
+2025-03-26 13:31:49,594 - INFO - User #3 logged in successfully.
+2025-03-26 13:32:34,524 - INFO - User #3 logged in successfully.
+2025-03-26 13:34:25,837 - INFO - User #2 logged in successfully.
+2025-03-26 13:34:47,742 - INFO - User #2 logged in successfully.
+2025-03-26 13:36:58,624 - INFO - User #2 logged in successfully.
+2025-03-26 13:37:42,529 - INFO - User #2 logged in successfully.
+2025-03-26 13:39:28,781 - INFO - User #2 logged in successfully.
+2025-03-26 13:41:05,804 - INFO - User #2 logged in successfully.
+2025-03-26 13:43:06,271 - INFO - User #2 logged in successfully.
+2025-03-26 13:44:35,305 - INFO - User #2 logged in successfully.
+2025-03-26 13:46:18,908 - INFO - User #2 logged in successfully.
+2025-03-26 14:37:07,610 - INFO - User #2 logged in successfully.
+2025-03-26 14:39:04,604 - INFO - User #2 logged in successfully.
+2025-03-26 15:30:54,078 - INFO - User #2 logged in successfully.
+2025-03-26 16:36:10,692 - INFO - User #2 logged in successfully.
+2025-03-26 16:36:49,479 - INFO - User #2 logged in successfully.
+2025-03-26 16:40:46,419 - INFO - User #2 logged in successfully.
+2025-03-26 16:40:50,776 - INFO - User #2 logged out successfully.
+2025-03-26 16:41:52,779 - WARNING - Logout failed: No user is currently logged in.
+2025-03-26 16:47:52,123 - INFO - User #2 logged in successfully.
+2025-03-26 16:47:53,396 - INFO - User #2 logged out successfully.
+2025-03-26 16:50:01,318 - INFO - User #2 logged in successfully.
+2025-03-26 16:50:02,652 - INFO - User #2 logged out successfully.
+2025-03-26 16:52:42,927 - INFO - User #2 logged in successfully.
+2025-03-26 16:52:44,990 - INFO - User #2 logged out successfully.
+2025-03-26 16:53:05,751 - INFO - User #2 logged in successfully.
+2025-03-26 16:55:29,394 - INFO - User #2 logged in successfully.
+2025-03-26 16:55:39,329 - INFO - User #2 logged out successfully.
+2025-03-26 16:56:02,202 - INFO - User #2 logged in successfully.
+2025-03-26 16:56:11,616 - INFO - User #2 logged out successfully.
+2025-03-26 16:59:58,783 - INFO - User #2 logged in successfully.
+2025-03-26 17:00:02,346 - INFO - User #2 logged out successfully.
+2025-03-26 17:04:57,684 - INFO - User #2 logged in successfully.
+2025-03-26 17:04:59,113 - INFO - User #2 logged out successfully.
+2025-03-26 17:05:20,508 - INFO - User #2 logged in successfully.
+2025-03-26 17:05:22,363 - INFO - User #2 logged out successfully.
+2025-03-26 17:05:30,510 - INFO - User #3 logged in successfully.
+2025-03-26 17:06:20,678 - INFO - User #3 logged in successfully.
+2025-03-26 17:06:27,787 - INFO - User #3 logged out successfully.
+2025-03-26 17:07:27,903 - INFO - User #3 logged in successfully.
+2025-03-26 17:07:29,538 - INFO - User #3 logged out successfully.
+2025-03-26 17:07:53,143 - INFO - User #3 logged in successfully.
+2025-03-26 17:07:54,410 - INFO - User #3 logged out successfully.
+2025-03-26 17:10:02,266 - INFO - User #3 logged in successfully.
+2025-03-26 17:10:06,268 - INFO - User #3 logged out successfully.
+2025-03-26 17:15:42,041 - INFO - User #2 logged in successfully.
+2025-03-26 17:15:43,506 - INFO - User #2 logged out successfully.
+2025-03-26 17:16:49,570 - INFO - User #3 logged in successfully.
+2025-03-26 17:16:51,116 - INFO - User #3 logged out successfully.
+2025-03-26 17:17:18,930 - INFO - User #3 logged in successfully.
+2025-03-26 17:17:20,104 - INFO - User #3 logged out successfully.
+2025-03-26 17:18:39,659 - INFO - User #3 logged in successfully.
+2025-03-26 17:18:40,930 - INFO - User #3 logged out successfully.
+2025-03-26 17:18:57,666 - WARNING - Logout failed: No user is currently logged in.
+2025-03-26 17:21:04,903 - INFO - User #3 logged in successfully.
+2025-03-26 17:21:09,011 - INFO - User #3 logged out successfully.
+2025-03-26 17:22:22,903 - INFO - User #3 logged in successfully.
+2025-03-26 17:22:24,130 - INFO - User #3 logged out successfully.
+2025-03-26 17:26:39,924 - INFO - User #3 logged in successfully.
+2025-03-26 17:26:41,396 - INFO - User #3 logged out successfully.
+2025-03-26 17:27:37,146 - WARNING - Logout failed: No user is currently logged in.
+2025-03-26 17:27:48,426 - WARNING - Logout failed: No user is currently logged in.
+2025-03-26 17:33:12,780 - INFO - User #3 logged in successfully.
