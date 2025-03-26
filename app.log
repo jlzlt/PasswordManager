@@ -1,0 +1,113 @@
+2025-03-21 19:21:10,099 - INFO - User julius registered successfully.
+2025-03-21 19:24:16,507 - INFO - User julius logged in successfully.
+2025-03-21 19:25:03,419 - WARNING - Logout failed: No user is currently logged in.
+2025-03-21 19:25:20,223 - INFO - User julius logged in successfully.
+2025-03-21 19:25:20,223 - INFO - User julius logged out successfully.
+2025-03-21 19:38:03,741 - INFO - User julius logged in successfully.
+2025-03-21 19:38:03,742 - ERROR - Database error: Incorrect number of bindings supplied. The current statement uses 1, and there are 6 supplied.
+2025-03-21 19:38:45,207 - INFO - User julius logged in successfully.
+2025-03-21 19:42:09,097 - INFO - User julius logged in successfully.
+2025-03-21 19:43:25,434 - INFO - User julius logged in successfully.
+2025-03-21 19:44:23,360 - INFO - User julius logged in successfully.
+2025-03-21 19:50:04,776 - INFO - User julius logged in successfully.
+2025-03-21 19:50:53,681 - INFO - User julius logged in successfully.
+2025-03-21 19:51:17,875 - ERROR - Database error: 4 values for 5 columns
+2025-03-21 19:51:54,983 - INFO - User julius logged in successfully.
+2025-03-21 19:52:29,983 - INFO - User julius logged in successfully.
+2025-03-21 20:00:38,667 - INFO - User julius logged in successfully.
+2025-03-21 20:00:51,052 - ERROR - Database error: no such table: password
+2025-03-21 20:01:09,842 - INFO - User julius logged in successfully.
+2025-03-21 20:01:21,818 - ERROR - Database error: parameters are of unsupported type
+2025-03-21 20:02:20,234 - INFO - User julius logged in successfully.
+2025-03-24 12:21:24,024 - ERROR - Database error: table users has no column named encryption_key
+2025-03-24 12:21:51,008 - INFO - User jlz registered successfully.
+2025-03-24 12:22:04,648 - WARNING - User jlz entered incorrect password.
+2025-03-24 12:23:22,690 - INFO - User #1 logged in successfully.
+2025-03-24 16:48:47,072 - INFO - User ela registered successfully.
+2025-03-24 16:48:53,239 - INFO - User #2 logged in successfully.
+2025-03-24 16:49:50,135 - INFO - Entry for user #2 successfully added.
+2025-03-24 16:50:07,496 - INFO - User #2 logged in successfully.
+2025-03-24 16:51:29,033 - INFO - User #2 logged in successfully.
+2025-03-24 16:52:52,358 - WARNING - Entry #3 not found.
+2025-03-24 16:54:58,254 - INFO - Successfully updated website for entry #1.
+2025-03-24 16:55:48,605 - INFO - Successfully updated username for entry #2.
+2025-03-24 16:56:54,450 - INFO - Entry for user #2 successfully added.
+2025-03-24 16:57:28,126 - INFO - Entry for user #2 successfully added.
+2025-03-24 16:58:01,777 - INFO - Entry for user #2 successfully added.
+2025-03-24 17:06:34,836 - INFO - User #2 logged in successfully.
+2025-03-24 17:07:14,825 - INFO - User #2 logged in successfully.
+2025-03-24 17:07:34,378 - ERROR - Failed to delete entry #1: name 'user_id' is not defined
+2025-03-24 17:08:15,256 - INFO - User #2 logged in successfully.
+2025-03-24 17:08:19,633 - WARNING - Entry #1 cannot be accessed.
+2025-03-24 17:09:19,568 - WARNING - Entry #1 cannot be accessed.
+2025-03-24 17:10:27,538 - INFO - User #2 logged in successfully.
+2025-03-24 17:10:45,905 - INFO - Entry for user #2 successfully added.
+2025-03-24 17:10:55,233 - WARNING - Entry #1 cannot be accessed.
+2025-03-24 17:11:32,597 - WARNING - Entry #99 cannot be accessed.
+2025-03-24 17:11:41,202 - INFO - Successfully updated website for entry #2.
+2025-03-24 17:12:12,110 - WARNING - Entry #1 cannot be accessed.
+2025-03-24 17:12:26,271 - WARNING - Entry #99 cannot be accessed.
+2025-03-24 17:12:35,952 - INFO - Successfully updated username for entry #2.
+2025-03-24 17:12:48,231 - WARNING - Entry #1 cannot be accessed.
+2025-03-24 17:12:57,724 - WARNING - Entry #99 cannot be accessed.
+2025-03-24 17:13:50,758 - INFO - Successfully updated password for entry #2.
+2025-03-24 17:14:06,261 - WARNING - Entry #1 cannot be accessed.
+2025-03-24 17:15:32,201 - INFO - User #2 logged in successfully.
+2025-03-24 17:15:40,158 - ERROR - Failed to update comment field for entry #1: name 'self_user_id' is not defined
+2025-03-24 17:16:07,053 - INFO - User #2 logged in successfully.
+2025-03-24 17:16:17,187 - WARNING - Entry #1 cannot be accessed.
+2025-03-24 17:16:23,104 - INFO - Successfully updated comment for entry #2.
+2025-03-24 17:16:28,743 - WARNING - Entry #1 cannot be accessed.
+2025-03-24 17:16:32,037 - INFO - Successfully deleted entry #2.
+2025-03-24 17:20:00,241 - INFO - User #2 logged in successfully.
+2025-03-24 17:20:45,564 - INFO - User #2 logged in successfully.
+2025-03-24 17:27:22,481 - INFO - User #2 logged in successfully.
+2025-03-24 17:27:28,874 - WARNING - Entry # cannot be accessed.
+2025-03-24 17:27:59,627 - INFO - User #2 logged in successfully.
+2025-03-24 17:32:23,940 - INFO - User #2 logged in successfully.
+2025-03-24 17:50:37,378 - INFO - User gedmi registered successfully.
+2025-03-24 17:50:42,432 - INFO - User #3 logged in successfully.
+2025-03-24 17:51:38,377 - INFO - Entry for user #3 successfully added.
+2025-03-24 17:54:45,181 - INFO - User #3 logged in successfully.
+2025-03-25 11:19:33,095 - INFO - User ela registered successfully.
+2025-03-25 11:19:44,340 - INFO - User #1 logged in successfully.
+2025-03-25 11:20:03,041 - INFO - Entry for user #1 successfully added.
+2025-03-25 11:20:41,491 - INFO - Entry for user #1 successfully added.
+2025-03-25 11:24:31,024 - INFO - User #1 logged in successfully.
+2025-03-25 11:24:43,877 - INFO - Successfully updated password for entry #1.
+2025-03-25 13:23:21,299 - INFO - User jlz registered successfully.
+2025-03-25 13:24:18,010 - INFO - User ela registered successfully.
+2025-03-25 13:24:23,481 - INFO - User #2 logged in successfully.
+2025-03-25 13:24:47,597 - INFO - Entry for user #2 successfully added.
+2025-03-25 13:25:40,806 - INFO - Successfully updated password for entry #1.
+2025-03-25 13:31:25,283 - INFO - User #2 logged in successfully.
+2025-03-25 13:31:53,620 - ERROR - Error changing password for User #2: 'int' object has no attribute 'rowcount'
+2025-03-25 13:34:38,192 - INFO - User #2 logged in successfully.
+2025-03-25 13:34:47,403 - INFO - User #2 changed his password successfully.
+2025-03-25 14:06:01,646 - INFO - User #2 logged in successfully.
+2025-03-25 14:06:16,783 - INFO - Entry for user #2 successfully added.
+2025-03-25 14:06:24,206 - INFO - Entry for user #2 successfully added.
+2025-03-25 14:06:41,718 - ERROR - Error changing username for User #2: 'int' object has no attribute 'rowcount'
+2025-03-25 14:06:50,825 - ERROR - Error changing username for User #2: 'int' object has no attribute 'rowcount'
+2025-03-25 14:42:34,991 - INFO - User #2 logged in successfully.
+2025-03-25 14:50:07,459 - INFO - User #2 logged in successfully.
+2025-03-25 15:12:46,586 - INFO - User #2 logged in successfully.
+2025-03-25 15:55:17,599 - INFO - User #2 logged in successfully.
+2025-03-25 16:09:16,160 - INFO - User #2 logged in successfully.
+2025-03-25 16:09:53,397 - INFO - User #2 logged in successfully.
+2025-03-25 16:10:13,609 - INFO - User #2 logged in successfully.
+2025-03-25 16:15:29,870 - INFO - User #2 logged in successfully.
+2025-03-25 16:18:54,745 - INFO - User #2 logged in successfully.
+2025-03-25 16:21:27,301 - INFO - User #2 logged in successfully.
+2025-03-25 16:21:56,959 - INFO - User #2 logged in successfully.
+2025-03-25 16:22:33,222 - INFO - User #2 logged in successfully.
+2025-03-25 16:37:36,346 - INFO - User #2 logged in successfully.
+2025-03-25 16:40:45,246 - INFO - User #2 logged in successfully.
+2025-03-25 16:42:03,336 - INFO - User #2 logged in successfully.
+2025-03-25 16:43:23,910 - INFO - User #2 logged in successfully.
+2025-03-25 16:51:26,133 - INFO - User #2 logged in successfully.
+2025-03-25 17:02:30,537 - INFO - User #2 logged in successfully.
+2025-03-25 17:06:02,894 - INFO - User #2 logged in successfully.
+2025-03-25 17:09:30,336 - INFO - User #2 logged in successfully.
+2025-03-25 17:45:23,269 - INFO - User #2 logged in successfully.
+2025-03-25 17:56:50,303 - INFO - User #2 logged in successfully.
