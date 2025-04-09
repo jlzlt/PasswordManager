@@ -520,8 +520,6 @@ class PasswordManagerGUI:
         self.pass_right_frame_main.grid_columnconfigure(0, weight=1) 
     
     def passwords_dash(self):
-        print("Open Passwords Dashboard")
-
         # Clear whatever was shown before
         self.clear_frame(self.pass_left_frame_main)
         self.forget_frame_widgets(self.pass_right_frame_main)
@@ -598,8 +596,7 @@ class PasswordManagerGUI:
         self.add_pass_win.transient(self.root)        
         self.add_pass_win.lift()
         self.add_pass_win.focus_force()
-        self.add_pass_win.after(250, lambda: self.add_pass_win.iconbitmap("static/padlock.ico"))        
-        print("Add new password")                
+        self.add_pass_win.after(250, lambda: self.add_pass_win.iconbitmap("static/padlock.ico"))             
         self.add_pass_win.grid_rowconfigure(0, weight=1)
         self.add_pass_win.grid_columnconfigure(0, weight=1)
 
@@ -670,8 +667,6 @@ class PasswordManagerGUI:
         error_label.grid(row=7, column=0, columnspan=2, padx=5, pady=5)
 
     def delete_password(self):
-        print("Delete password")
-
         if self.selected_pass_name:
             confirm = CTkMessagebox(
                 master=self.root,
@@ -737,7 +732,6 @@ class PasswordManagerGUI:
                 if not url.startswith(("http://", "https://")):
                     url = "https://" + url  # Ensure the URL is correctly formatted
                 webbrowser.open(url)
-                print(f"Opened URL: {url}")
 
         # Function to save field
         def save_field(old_text, field_name, entry_widget, entry_id, help_label):
@@ -745,8 +739,6 @@ class PasswordManagerGUI:
             if old_text == new_value:
                 return
             result = self.pwman.update_entry(entry_id, field_name, new_value)
-
-            print(result)
 
             help_label.configure(text=result)
 
@@ -756,7 +748,6 @@ class PasswordManagerGUI:
                           "Comment updated successfully.", 
                           "Password updated successfully."):
                 original_values[(entry_id, field_name)] = new_value
-                print(original_values)
                 entry_widget.configure(fg_color="#06402B")
                 entry_widget.after(500, lambda: entry_widget.configure(fg_color="#343638"))
                 pass
@@ -793,7 +784,6 @@ class PasswordManagerGUI:
             if response == "OK":
                 self.pwman.delete_entry(entry_id)  # Remove from database
                 frame.destroy()  # Remove the frame from UI
-                print(f"Deleted entry ID: {entry_id}")
                 self.passwords_dash()
                 self.selected_passwords_button(name)
             else:
@@ -970,8 +960,6 @@ class PasswordManagerGUI:
 ###### <<<<<<<<<<<<<<<<<<<< Password Generator >>>>>>>>>>>>>>>>>>>> #####
 
     def pass_gen_dash(self):
-        print("Open Password Generator Dashboard")
-
         self.root.title(f"Password Manager - Dashboard - User: {self.user['username']} - Password Generator")
 
         self.passgen_container_frame.tkraise()
@@ -1041,8 +1029,6 @@ class PasswordManagerGUI:
         self.passgen_result_copybtn.grid(row=3, column=2, padx=5, pady=5)
 
     def generate_password(self):
-        print("Generate password")
-
         try:
             length = int(self.passgen_length_entry.get())
             digits = int(self.passgen_digits_entry.get())
@@ -1085,8 +1071,6 @@ class PasswordManagerGUI:
 ###### <<<<<<<<<<<<<<<<<<<< Import Data >>>>>>>>>>>>>>>>>>>> #####
 
     def import_data_dash(self):
-        print("Open Import Data Dashboard")
-
         self.root.title(f"Password Manager - Dashboard - User: {self.user['username']} - Import Data")
          
         self.indata_container_frame.tkraise()
@@ -1160,7 +1144,6 @@ class PasswordManagerGUI:
 
                 # Check if the entry already exists
                 check_result = self.pwman.check_entry(name, username, password)
-                print(check_result)
 
                 # If no such entry exists, add it to the database
                 if check_result == "Entry does not exist.":    
@@ -1186,8 +1169,6 @@ class PasswordManagerGUI:
 ###### <<<<<<<<<<<<<<<<<<<< Export Data >>>>>>>>>>>>>>>>>>>> #####
 
     def export_data_dash(self):
-        print("Open Export Data Dashboard")
-
         self.root.title(f"Password Manager - Dashboard - User: {self.user['username']} - Export Data")
 
         self.outdata_container_frame.tkraise()
@@ -1253,8 +1234,7 @@ class PasswordManagerGUI:
             self.outdata_help_label.configure(text="Passwords exported successfully.")
         except Exception as e:
             self.outdata_help_label.configure(text=f"Failed to export passwords: {e}")
-        print(f"Exported passwords to {export_path}")        
-
+    
     def browse_export_path(self):
         """Open file dialog to select export path."""
         file_path = tk.filedialog.asksaveasfilename(
@@ -1269,8 +1249,6 @@ class PasswordManagerGUI:
 ###### <<<<<<<<<<<<<<<<<<<< Statistics >>>>>>>>>>>>>>>>>>>> #####
 
     def statistics_dash(self):
-        print("Open Statistics Dashboard")
-
         self.root.title(f"Password Manager - Dashboard - User: {self.user['username']} - Statistics")
 
         self.stats_container_frame.tkraise()
@@ -1324,8 +1302,6 @@ class PasswordManagerGUI:
 ###### <<<<<<<<<<<<<<<<<<<< User (Settings) >>>>>>>>>>>>>>>>>>>> #####
 
     def user_dash(self):
-        print("Open User Dashboard")
-
         self.root.title(f"Password Manager - Dashboard - User: {self.user['username']} - Settings")
 
         self.user_container_frame.tkraise()
@@ -1443,9 +1419,7 @@ class PasswordManagerGUI:
 
 ###### <<<<<<<<<<<<<<<<<<<< Logout >>>>>>>>>>>>>>>>>>>> #####
 
-    def logout(self):
-        print("Logging out")
-       
+    def logout(self):      
         confirm = CTkMessagebox(
             master=self.root,
             message=f'Are you sure you want to logout?', 
