@@ -8,6 +8,7 @@ class DatabaseManager:
         self.db_name = db_name
         self.create_tables()
 
+    
     def create_tables(self):
         """Create Users and Passwords tables if they don't exist."""
         try:
@@ -40,6 +41,11 @@ class DatabaseManager:
                         date_modified TEXT,
                         FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
                     );
+                                     
+                    CREATE INDEX IF NOT EXISTS idx_passwords_user_id ON passwords(user_id);
+                    CREATE INDEX IF NOT EXISTS idx_passwords_name ON passwords(name);
+                    CREATE INDEX IF NOT EXISTS idx_passwords_website ON passwords(website);
+                    CREATE INDEX IF NOT EXISTS idx_passwords_username ON passwords(username);
 
                 """)
 
@@ -76,6 +82,20 @@ class DatabaseManager:
         except sqlite3.Error as e:
            logging.error(f"Database error: {e}")
            raise RuntimeError(f"Database error: {e}")
+
+        except Exception as e:
+            logging.error(f"Unexpected error: {e}")
+            raise RuntimeError(f"Unexpected error: {e}")
+        
+    def logout(self):
+        """Close the database connection."""
+        try:
+            if hasattr(self, 'conn'):
+                self.conn.close()
+                logging.info("Database connection closed.")
+        except sqlite3.Error as e:
+            logging.error(f"Error closing database connection: {e}")
+            raise RuntimeError(f"Error closing database connection: {e}")
 
         except Exception as e:
             logging.error(f"Unexpected error: {e}")
