@@ -7,7 +7,6 @@ import webbrowser
 from auth import AuthManager
 from config import VERSION
 from CTkMessagebox import CTkMessagebox
-from CTkXYFrame import *
 from database import DatabaseManager
 from password_generator import PasswordGenerator
 from passwords_manager import PasswordsManager
