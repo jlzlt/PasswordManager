@@ -48,7 +48,7 @@ Start the application with:
 ### Security & Encryption
 PasswordManager uses a layered encryption model designed to maximize security while allowing for safe storage and retrieval of sensitive data.
 
-- The password user register with (master password) is stored in database hashed (thus safely unreadable)
+- The password user registers with (master password) is stored in database hashed (thus safely unreadable)
 - When a user registers their master password is combined with a unique user-specific salt (generated on registration) to create original encryption key
 - This encryption key is then used to encrypt any passwords user stores
 - Master password required to access any password data
@@ -56,7 +56,7 @@ PasswordManager uses a layered encryption model designed to maximize security wh
 
 ### Password Management
 
-- Add new credentials (website, username, password)
+- Add new credentials (website, username, password, comment)
 - View stored credentials (after decryption)
 - Update existing credentials
 - Delete credentials securely
