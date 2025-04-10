@@ -1,6 +1,6 @@
 import bcrypt
 import logging
-from config import MIN_USERNAME_LENGTH, MIN_PASSWORD_LENGTH, DATABASE
+from config import MIN_USERNAME_LENGTH, MIN_PASSWORD_LENGTH, DATABASE, MAX_USERNAME_LENGTH
 from database import DatabaseManager
 from encryption import EncryptionManager
 
@@ -96,6 +96,8 @@ class AuthManager:
 
         if len(new_username) < MIN_USERNAME_LENGTH:
             return f"Username must be at least {MIN_USERNAME_LENGTH} characters long."
+        elif len(new_username) > MAX_USERNAME_LENGTH:
+            return f"Username must be at most {MAX_USERNAME_LENGTH} characters long."
 
         try:
             # Check whether user is already taken

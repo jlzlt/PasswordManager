@@ -9,6 +9,7 @@ logging.basicConfig(
 
 DATABASE = "passwords.db"
 MIN_USERNAME_LENGTH = 1
+MAX_USERNAME_LENGTH = 15
 MIN_PASSWORD_LENGTH = 4
 DEBUG_MODE = True
 VERSION = "1.0.0"

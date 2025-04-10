@@ -22,7 +22,9 @@ class PasswordManagerGUI:
 
         # This is for handling delete confirmation box
         self.selected_pass_name = None
+        self.selected_tools_frame = None
         self.pass_frame_cache = {}
+        self.just_registered = False
 
         # Configure grid weights for the root window
         self.root.grid_rowconfigure(0, weight=1)
@@ -52,7 +54,7 @@ class PasswordManagerGUI:
         self.font_bigbutton = ctk.CTkFont(family="Roboto", size=16, weight="bold")
         self.font_button = ctk.CTkFont(family="Roboto", size=14, weight="bold")
         self.font_std_button = ctk.CTkFont(family="Roboto", size=14)
-        self.font_error = ctk.CTkFont(family="Roboto", size=14, slant="italic")
+        self.font_error = ctk.CTkFont(family="Roboto", size=14)
         self.font_help = ctk.CTkFont(family="Roboto", size=14)
         self.font_help_del = ctk.CTkFont(family="Roboto", size=14)
         self.font_pass_name = ctk.CTkFont(family="Roboto", size=16, weight="bold")
@@ -60,12 +62,13 @@ class PasswordManagerGUI:
         self.font_title = ctk.CTkFont(family="Roboto", size=24, weight="bold")
         self.font_footer = ctk.CTkFont(family="Roboto", size=14)
 
-        # #008B8B
-        self.bcolor_container = "#722F37"
-        self.bcolor_passContainer = "#722F37"
-        self.bcolor_passEntryContainer = "#722F37"
+        # #008B8B #722F37
+        self.bcolor_container = "#008B8B"
+        self.bcolor_passContainer = "#008B8B"
+        self.bcolor_passEntryContainer = "#008B8B"
         self.bcolor_separator = "#DEA193"
-        self.bcolor_pass_name = "black"
+        self.bcolor_pass_name = "#06402B"
+        self.bcolor_tools_btn = "#06402B"
 
         self.corrad_tools = 50
         self.corrad_main_container = 25
@@ -81,9 +84,9 @@ class PasswordManagerGUI:
         self.color_tools_btn = "transparent"
         self.color_tools_btn_hover = "#06402B"
         self.color_tools_btn_selected = "#06402B"
-        self.color_pass_name = "transparent" # "#1f538d"
-        self.color_pass_name_hover = "#06402B" # "#14375e"
-        self.color_pass_name_selected = "#06402B" # "#14375e"
+        self.color_pass_name = "transparent"
+        self.color_pass_name_hover = "#06402B"
+        self.color_pass_name_selected = "#06402B"
 
 ###### <<<<<<<<<<<<<<<<<<<< Login/Register >>>>>>>>>>>>>>>>>>>> #####
 
@@ -104,10 +107,12 @@ class PasswordManagerGUI:
         self.password_entry = ctk.CTkEntry(self.login_frame, show="*", font=self.font_entry, corner_radius=10, height=35)
         self.password_entry.grid(row=1, column=1, padx=(5,20), pady=5)
 
-        self.login_button = ctk.CTkButton(self.login_frame, text="Login", command=self.login, font=self.font_button, image=login_image)
+        self.login_button = ctk.CTkButton(self.login_frame, text="Login", 
+                                          command=self.login, font=self.font_button, image=login_image)
         self.login_button.grid(row=2, column=0, columnspan=2, pady=(20, 5))
 
-        self.register_button = ctk.CTkButton(self.login_frame, text="Register", command=self.show_register_frame, font=self.font_button)
+        self.register_button = ctk.CTkButton(self.login_frame, text="Register", 
+                                             command=self.show_register_frame, font=self.font_button)
         self.register_button.grid(row=3, column=0, columnspan=2, pady=5)
 
         self.error_label = ctk.CTkLabel(self.login_frame, text="", font=self.font_error)
@@ -132,10 +137,12 @@ class PasswordManagerGUI:
         self.repassword_reg_entry = ctk.CTkEntry(self.register_frame, show="*", font=self.font_entry)
         self.repassword_reg_entry.grid(row=2, column=1, padx=(5,20), pady=5)
 
-        self.register_submit_button = ctk.CTkButton(self.register_frame, text="Register", command=self.register, font=self.font_button, image=register_image)
+        self.register_submit_button = ctk.CTkButton(self.register_frame, text="Register", 
+                                                    command=self.register, font=self.font_button, image=register_image)
         self.register_submit_button.grid(row=3, column=0, columnspan=2, pady=(20, 5))
 
-        self.back_to_login_button = ctk.CTkButton(self.register_frame, text="Back to Login", command=self.show_login_frame, font=self.font_button)
+        self.back_to_login_button = ctk.CTkButton(self.register_frame, text="Back to Login", 
+                                                  command=self.show_login_frame, font=self.font_button)
         self.back_to_login_button.grid(row=4, column=0, columnspan=2, pady=5)
 
         self.error_reg_label = ctk.CTkLabel(self.register_frame, text="", font=self.font_error)
@@ -147,7 +154,8 @@ class PasswordManagerGUI:
 
         # Hide registration frame and show login frame
         self.register_frame.grid_forget()
-        self.error_label.configure(text="")
+        if not self.just_registered:
+            self.error_label.configure(text="")
         self.username_entry.delete(0, 'end')
         self.password_entry.delete(0, 'end')        
 
@@ -182,8 +190,10 @@ class PasswordManagerGUI:
         login_status = self.auth.login_user(username, password)
 
         if login_status == "Login successful.":
-            self.user = self.db.execute_query("SELECT * FROM users WHERE user_id = ?", (self.auth.current_user,))[0]
-            self.pwman = PasswordsManager(password, self.user["key_salt"], self.user["encryption_key"], self.auth.current_user)
+            self.user = self.db.execute_query("SELECT * FROM users WHERE user_id = ?", 
+                                              (self.auth.current_user,))[0]
+            self.pwman = PasswordsManager(password, self.user["key_salt"], 
+                                          self.user["encryption_key"], self.auth.current_user)
             self.login_frame.grid_forget()
             self.register_frame.grid_forget()
             self.root.unbind("<Return>")
@@ -198,8 +208,10 @@ class PasswordManagerGUI:
 
         register_status = self.auth.register_user(username, password, repassword)
 
-        if register_status == "Registration successful.":            
+        if register_status == "Registration successful.": 
+            self.just_registered = True           
             self.show_login_frame()
+            self.error_label.configure(text="Succesfully registered. Now Login.")
         else:
             self.error_reg_label.configure(text=register_status)
 
@@ -218,7 +230,8 @@ class PasswordManagerGUI:
         self.loading_progress.set(0)  # Start at 0%
         
         # Add a label below the progress bar
-        self.loading_label = ctk.CTkLabel(self.loading_frame, text="Loading, please wait...", font=("Roboto", 16))
+        self.loading_label = ctk.CTkLabel(self.loading_frame, text="Loading, please wait...", 
+                                          font=("Roboto", 16))
         self.loading_label.grid(row=1, column=0, padx=10, pady=(0, 20))
         
         # Create a variable to track loading state
@@ -267,23 +280,29 @@ class PasswordManagerGUI:
         # This contains the UI creation logic from open_dashboard
         # but doesn't make anything visible yet
         self.main_container = ctk.CTkFrame(self.root)
-        self.tools_main_frame = ctk.CTkFrame(self.main_container, fg_color="gray15")
+        self.tools_main_frame = ctk.CTkFrame(self.main_container, fg_color="gray15", width = 200)
         self.pass_container_frame = ctk.CTkFrame(self.main_container, border_color=self.bcolor_container, 
-                                                border_width=self.width_container, fg_color="transparent", corner_radius=self.corrad_main_container)
+                                                border_width=self.width_container, fg_color="transparent", 
+                                                corner_radius=self.corrad_main_container)
         self.passgen_container_frame = ctk.CTkFrame(self.main_container, border_color=self.bcolor_container, 
-                                                    border_width=self.width_container, fg_color="transparent", corner_radius=self.corrad_containers)
+                                                    border_width=self.width_container, fg_color="transparent", 
+                                                    corner_radius=self.corrad_containers)
         self.outdata_container_frame = ctk.CTkFrame(self.main_container, border_color=self.bcolor_container, 
-                                                    border_width=self.width_container, fg_color="transparent", corner_radius=self.corrad_containers)
+                                                    border_width=self.width_container, fg_color="transparent", 
+                                                    corner_radius=self.corrad_containers)
         self.indata_container_frame = ctk.CTkFrame(self.main_container, border_color=self.bcolor_container, 
-                                                   border_width=self.width_container, fg_color="transparent", corner_radius=self.corrad_containers)
+                                                   border_width=self.width_container, fg_color="transparent", 
+                                                   corner_radius=self.corrad_containers)
         self.user_container_frame = ctk.CTkFrame(self.main_container, border_color=self.bcolor_container, 
-                                                 border_width=self.width_container, fg_color="transparent", corner_radius=self.corrad_containers)
+                                                 border_width=self.width_container, fg_color="transparent", 
+                                                 corner_radius=self.corrad_containers)
         self.stats_container_frame = ctk.CTkFrame(self.main_container, border_color=self.bcolor_container,
-                                                  border_width=self.width_container, fg_color="transparent", corner_radius=self.corrad_containers)
+                                                  border_width=self.width_container, fg_color="transparent", 
+                                                  corner_radius=self.corrad_containers)
         
         # Setup all the frames but don't grid them yet
-        self.fill_tools_frame(self.user)
-        self.fill_pass_frame(self.user)
+        self.fill_tools_frame()
+        self.fill_pass_frame()
         self.fill_pass_gen_frame()
         self.fill_export_data_frame()
         self.fill_import_data_frame()
@@ -319,48 +338,18 @@ class PasswordManagerGUI:
         self.tools_main_frame.grid(row=0, column=0, padx=0, pady=0, sticky="nsew")
         self.tools_main_frame.grid_rowconfigure(1, weight=1)
         self.tools_main_frame.grid_columnconfigure(0, weight=1)
-        
-        # Grid the passwords container
-        self.pass_container_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
-        self.pass_container_frame.grid_columnconfigure(0, weight=0)
-        self.pass_container_frame.grid_columnconfigure(1, weight=1)
-        self.pass_container_frame.grid_rowconfigure(0, weight=1)
-
-        # Grid the password generator container
-        self.passgen_container_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
-        self.passgen_container_frame.grid_columnconfigure(0, weight=1)
-        self.passgen_container_frame.grid_rowconfigure(0, weight=0)  
-        self.passgen_container_frame.grid_rowconfigure(1, weight=1)
-        
-        # Grid the export data container
-        self.outdata_container_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
-        self.outdata_container_frame.grid_columnconfigure(0, weight=1)
-        self.outdata_container_frame.grid_rowconfigure(1, weight=1)
-
-        # Grid the import data container
-        self.indata_container_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
-        self.indata_container_frame.grid_columnconfigure(0, weight=1)
-        self.indata_container_frame.grid_rowconfigure(1, weight=1)
-
-        # Grid the user container        
-        self.user_container_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
-        self.user_container_frame.grid_columnconfigure(0, weight=1)
-        self.user_container_frame.grid_rowconfigure(1, weight=1)
-        
-        # Grid the statistics container        
-        self.stats_container_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
-        self.stats_container_frame.grid_columnconfigure(0, weight=1)
-        self.stats_container_frame.grid_rowconfigure(1, weight=1)
+        self.tools_main_frame.grid_propagate(False)
 
         # Select default tool
         self.selected_tools_button(self.passwords_button)
 
-    def fill_tools_frame(self, user):
+    def fill_tools_frame(self):
         # Setup header, nav and footer frames
+        height = 40
         width = 200
 
         self.tools_header_frame = ctk.CTkFrame(self.tools_main_frame, fg_color="transparent")
-        self.tools_header_frame.grid(row=0, column=0, padx=10, pady=50, sticky="nwe")
+        self.tools_header_frame.grid(row=0, column=0, padx=10, pady=(42, 50), sticky="nwe")
 
         self.tools_header_frame.grid_columnconfigure(0, weight=1)
 
@@ -376,41 +365,46 @@ class PasswordManagerGUI:
 
         # Fill header frame
 
-        self.welcome_label = ctk.CTkLabel(self.tools_header_frame, text=f"Welcome, {user['username']}", font=self.font_title)
+        self.welcome_label = ctk.CTkLabel(self.tools_header_frame, text="Welcome", font=self.font_title)
         self.welcome_label.grid(row=0, column=0, padx=10, pady=5, sticky="nsew")
 
+        self.welcome_name_label = ctk.CTkLabel(self.tools_header_frame, text="", font=self.font_title)
+        self.welcome_name_label.grid(row=1, column=0, padx=10, pady=5, sticky="nsew")
+
+        self.change_welcome_label(self.user["username"])
+
         self.tools_header_separator = ctk.CTkFrame(self.tools_header_frame, height=self.width_separator, corner_radius=self.corrad_separator, fg_color=self.bcolor_separator)
-        self.tools_header_separator.grid(row=1, column=0, padx=5, pady=5, sticky="ew")
+        self.tools_header_separator.grid(row=2, column=0, padx=5, pady=5, sticky="ew")
 
         # Fill nav frame
 
-        self.passwords_button = ctk.CTkButton(self.tools_nav_frame, text="Passwords", font=self.font_bigbutton, width=width,
+        self.passwords_button = ctk.CTkButton(self.tools_nav_frame, text="Passwords", font=self.font_bigbutton, width=width, height=height, border_color= self.bcolor_tools_btn, border_width=1,
                                               command=lambda: self.selected_tools_button(self.passwords_button), corner_radius=self.corrad_tools, fg_color=self.color_tools_btn)
         self.passwords_button.grid(row=0, column=0, padx=5, pady=20)
 
-        self.pass_gen_button = ctk.CTkButton(self.tools_nav_frame, text="Password Generator", font=self.font_bigbutton, width=width,
+        self.pass_gen_button = ctk.CTkButton(self.tools_nav_frame, text="Password Generator", font=self.font_bigbutton, width=width, height=height, border_color= self.bcolor_tools_btn, border_width=1,
                                              command=lambda: self.selected_tools_button(self.pass_gen_button), corner_radius=self.corrad_tools)
         self.pass_gen_button.grid(row=1, column=0, padx=5, pady=5)
 
-        self.import_data_button = ctk.CTkButton(self.tools_nav_frame, text="Import Data", font=self.font_bigbutton, width=width,
+        self.import_data_button = ctk.CTkButton(self.tools_nav_frame, text="Import Data", font=self.font_bigbutton, width=width, height=height, border_color= self.bcolor_tools_btn, border_width=1,
                                                 command=lambda: self.selected_tools_button(self.import_data_button), corner_radius=self.corrad_tools)
         self.import_data_button.grid(row=2, column=0, padx=5, pady=5)
 
-        self.export_data_button = ctk.CTkButton(self.tools_nav_frame, text="Export Data", font=self.font_bigbutton, width=width,
+        self.export_data_button = ctk.CTkButton(self.tools_nav_frame, text="Export Data", font=self.font_bigbutton, width=width, height=height, border_color= self.bcolor_tools_btn, border_width=1,
                                                 command=lambda: self.selected_tools_button(self.export_data_button), corner_radius=self.corrad_tools)
         self.export_data_button.grid(row=3, column=0, padx=5, pady=5)
 
-        self.statistics_button = ctk.CTkButton(self.tools_nav_frame, text="Statistics", font=self.font_bigbutton, width=width,
+        self.statistics_button = ctk.CTkButton(self.tools_nav_frame, text="Statistics", font=self.font_bigbutton, width=width, height=height, border_color= self.bcolor_tools_btn, border_width=1,
                                                command=lambda: self.selected_tools_button(self.statistics_button), corner_radius=self.corrad_tools)
         self.statistics_button.grid(row=4, column=0, padx=5, pady=5)
 
         # Fill footer frame
 
-        self.user_button = ctk.CTkButton(self.tools_footer_frame, text="User (Settings)", font=self.font_bigbutton, width=width,
+        self.user_button = ctk.CTkButton(self.tools_footer_frame, text="User (Settings)", font=self.font_bigbutton, width=width, height=height, border_color= self.bcolor_tools_btn, border_width=1,
                                          command=lambda: self.selected_tools_button(self.user_button), corner_radius=self.corrad_tools)
         self.user_button.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
        
-        self.logout_button = ctk.CTkButton(self.tools_footer_frame, text="Logout", fg_color="transparent", border_width=1, width=width,
+        self.logout_button = ctk.CTkButton(self.tools_footer_frame, text="Logout", fg_color="transparent", border_width=1, width=width, height=height,
                                          border_color="gray", hover_color=self.color_tools_btn_hover, font=self.font_bigbutton, command=self.logout, corner_radius=self.corrad_tools)
         self.logout_button.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 
@@ -418,7 +412,7 @@ class PasswordManagerGUI:
         self.all_tools_buttons = [self.passwords_button, self.pass_gen_button, self.import_data_button, self.export_data_button, self.statistics_button, self.user_button]        
 
     def selected_tools_button(self, clicked_button):        
-        # Update visuals
+        # Update visuals        
         for btn in self.all_tools_buttons:
             btn.configure(fg_color=self.color_tools_btn)  # Reset all buttons color
             btn.configure(hover_color=self.color_tools_btn_hover)  # Reset hover color
@@ -439,7 +433,7 @@ class PasswordManagerGUI:
 
 ###### <<<<<<<<<<<<<<<<<<<< Passwords >>>>>>>>>>>>>>>>>>>> #####
 
-    def fill_pass_frame(self, user):
+    def fill_pass_frame(self):
 
         # Create left frame for navigation (header, main and footer frames inside)
 
@@ -534,6 +528,15 @@ class PasswordManagerGUI:
         # Bind arrow keys for navigation
         self.root.bind("<Down>", lambda event: self.navigate_password_list("down"))
         self.root.bind("<Up>", lambda event: self.navigate_password_list("up"))
+
+        if self.selected_tools_frame is not None:
+            self.selected_tools_frame.grid_forget()
+        self.selected_tools_frame = self.pass_container_frame
+
+        self.pass_container_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
+        self.pass_container_frame.grid_columnconfigure(0, weight=0)
+        self.pass_container_frame.grid_columnconfigure(1, weight=1)
+        self.pass_container_frame.grid_rowconfigure(0, weight=1)
 
         self.pass_container_frame.tkraise()
 
@@ -872,7 +875,6 @@ class PasswordManagerGUI:
 
         return container
 
-
     def get_user_passwords(self, user_id):
         passwords = self.db.execute_query("SELECT * FROM passwords WHERE user_id = ?", (user_id,))
         return passwords
@@ -909,16 +911,24 @@ class PasswordManagerGUI:
             sorted_password_names = sorted(self.get_password_names(self.user_passwords), key=str.lower)
 
         for i, name in enumerate(sorted_password_names):
+            if len(name) > 16:
+                text_name = name[:14] + "..."
+                command_name = name
+            else:
+                text_name = name
+                command_name = name
+
             pass_names_btn = ctk.CTkButton(
                 self.pass_left_frame_main, 
-                text=name, 
-                command=lambda n=name: self.selected_passwords_button(n), 
+                text=text_name, 
+                command=lambda n=command_name: self.selected_passwords_button(n), 
                 font=self.font_pass_name,                                                  
                 height=40,
                 corner_radius=self.corrad_pass_name,
                 fg_color=self.color_pass_name,
                 hover_color=self.color_pass_name_hover,
-                border_color=self.bcolor_pass_name,            
+                border_color=self.bcolor_pass_name,
+                border_width=1          
             )
             pass_names_btn.grid(row=i, column=0, sticky="ew", padx=5, pady=1)
             self.all_passwords_buttons[name] = pass_names_btn  
@@ -960,16 +970,25 @@ class PasswordManagerGUI:
 ###### <<<<<<<<<<<<<<<<<<<< Password Generator >>>>>>>>>>>>>>>>>>>> #####
 
     def pass_gen_dash(self):
+        if self.selected_tools_frame is not None:
+            self.selected_tools_frame.grid_forget()
+        self.selected_tools_frame = self.passgen_container_frame
+
         self.root.title(f"Password Manager - Dashboard - User: {self.user['username']} - Password Generator")
+
+        # Grid the password generator container
+        self.passgen_container_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
+        self.passgen_container_frame.grid_columnconfigure(0, weight=1)
+        self.passgen_container_frame.grid_rowconfigure(0, weight=0)  
+        self.passgen_container_frame.grid_rowconfigure(1, weight=1)
 
         self.passgen_container_frame.tkraise()
 
     def fill_pass_gen_frame(self):
-
         width = 100
 
         self.passgen_header_frame = ctk.CTkFrame(self.passgen_container_frame, fg_color="transparent")
-        self.passgen_header_frame.grid(row=0, column=0, padx=20, pady=30, sticky="new")
+        self.passgen_header_frame.grid(row=0, column=0, padx=20, pady=60, sticky="new")
         self.passgen_header_frame.grid_columnconfigure(0, weight=1)
 
         self.passgen_main_frame = ctk.CTkFrame(self.passgen_container_frame, fg_color="transparent")
@@ -1017,7 +1036,7 @@ class PasswordManagerGUI:
         self.passgen_generate_button.grid(row=5, column=0, padx=5, pady=5, sticky="w")
         
         self.passgen_result_help = ctk.CTkLabel(self.passgen_main_frame, text="", font=self.font_help)
-        self.passgen_result_help.grid(row=6, column=0, padx=5, pady=5, sticky="w")
+        self.passgen_result_help.grid(row=6, column=0, columnspan=2, padx=5, pady=5, sticky="w")
 
         self.passgen_result_label = ctk.CTkLabel(self.passgen_main_frame, text="Generated password:", font=self.font_normal)
         self.passgen_result_label.grid(row=1, column=2, padx=5, pady=5)
@@ -1071,14 +1090,22 @@ class PasswordManagerGUI:
 ###### <<<<<<<<<<<<<<<<<<<< Import Data >>>>>>>>>>>>>>>>>>>> #####
 
     def import_data_dash(self):
+        if self.selected_tools_frame is not None:
+            self.selected_tools_frame.grid_forget()
+        self.selected_tools_frame = self.indata_container_frame
+
         self.root.title(f"Password Manager - Dashboard - User: {self.user['username']} - Import Data")
          
+        # Grid the import data container
+        self.indata_container_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
+        self.indata_container_frame.grid_columnconfigure(0, weight=1)
+        self.indata_container_frame.grid_rowconfigure(1, weight=1)
+
         self.indata_container_frame.tkraise()
 
-    def fill_import_data_frame(self):        
-
+    def fill_import_data_frame(self):       
         self.indata_header_frame = ctk.CTkFrame(self.indata_container_frame, fg_color="transparent")
-        self.indata_header_frame.grid(row=0, column=0, padx=20, pady=30, sticky="new")
+        self.indata_header_frame.grid(row=0, column=0, padx=20, pady=60, sticky="new")
         self.indata_header_frame.grid_columnconfigure(0, weight=1)
 
         self.indata_main_frame = ctk.CTkFrame(self.indata_container_frame, fg_color="transparent")
@@ -1164,19 +1191,27 @@ class PasswordManagerGUI:
                 self.indata_help_label.configure(text="No new passwords imported.")            
 
         except Exception as e:
-            self.indata_help_label.configure(text=f"Failed to import passwords: {e}")
+            self.indata_help_label.configure(text=f"Failed to import passwords.")
 
 ###### <<<<<<<<<<<<<<<<<<<< Export Data >>>>>>>>>>>>>>>>>>>> #####
 
     def export_data_dash(self):
+        if self.selected_tools_frame is not None:
+            self.selected_tools_frame.grid_forget()
+        self.selected_tools_frame = self.outdata_container_frame
+
         self.root.title(f"Password Manager - Dashboard - User: {self.user['username']} - Export Data")
+
+        # Grid the export data container
+        self.outdata_container_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
+        self.outdata_container_frame.grid_columnconfigure(0, weight=1)
+        self.outdata_container_frame.grid_rowconfigure(1, weight=1)
 
         self.outdata_container_frame.tkraise()
 
     def fill_export_data_frame(self):
-
         self.outdata_header_frame = ctk.CTkFrame(self.outdata_container_frame, fg_color="transparent")
-        self.outdata_header_frame.grid(row=0, column=0, padx=20, pady=30, sticky="new")
+        self.outdata_header_frame.grid(row=0, column=0, padx=20, pady=60, sticky="new")
         self.outdata_header_frame.grid_columnconfigure(0, weight=1)
 
         self.outdata_main_frame = ctk.CTkFrame(self.outdata_container_frame, fg_color="transparent")
@@ -1214,6 +1249,11 @@ class PasswordManagerGUI:
         # Get all passwords for the current user
         passwords = self.pwman.get_entries(self.auth.current_user)
 
+        n_passwords = len(passwords)
+        if n_passwords == 0:
+            self.outdata_help_label.configure(text="No passwords to export.")
+            return
+
         edited_passwords = []
         for password in passwords:
             password_dict = {
@@ -1231,7 +1271,7 @@ class PasswordManagerGUI:
         # Export to CSV
         try:
             df.to_csv(export_path, index=False)
-            self.outdata_help_label.configure(text="Passwords exported successfully.")
+            self.outdata_help_label.configure(text=f"{n_passwords} Passwords exported successfully.")
         except Exception as e:
             self.outdata_help_label.configure(text=f"Failed to export passwords: {e}")
     
@@ -1249,14 +1289,22 @@ class PasswordManagerGUI:
 ###### <<<<<<<<<<<<<<<<<<<< Statistics >>>>>>>>>>>>>>>>>>>> #####
 
     def statistics_dash(self):
+        if self.selected_tools_frame is not None:
+            self.selected_tools_frame.grid_forget()
+        self.selected_tools_frame = self.stats_container_frame
+
         self.root.title(f"Password Manager - Dashboard - User: {self.user['username']} - Statistics")
+
+        # Grid the statistics container        
+        self.stats_container_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
+        self.stats_container_frame.grid_columnconfigure(0, weight=1)
+        self.stats_container_frame.grid_rowconfigure(1, weight=1)
 
         self.stats_container_frame.tkraise()
 
     def fill_statistics_frame(self):
-
         self.stats_header_frame = ctk.CTkFrame(self.stats_container_frame, fg_color="transparent")
-        self.stats_header_frame.grid(row=0, column=0, padx=20, pady=30, sticky="new")
+        self.stats_header_frame.grid(row=0, column=0, padx=20, pady=60, sticky="new")
         self.stats_header_frame.grid_columnconfigure(0, weight=1)
 
         self.stats_main_frame = ctk.CTkFrame(self.stats_container_frame, fg_color="transparent")
@@ -1302,13 +1350,22 @@ class PasswordManagerGUI:
 ###### <<<<<<<<<<<<<<<<<<<< User (Settings) >>>>>>>>>>>>>>>>>>>> #####
 
     def user_dash(self):
+        if self.selected_tools_frame is not None:
+            self.selected_tools_frame.grid_forget()
+        self.selected_tools_frame = self.user_container_frame
+
         self.root.title(f"Password Manager - Dashboard - User: {self.user['username']} - Settings")
+
+        # Grid the user container        
+        self.user_container_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
+        self.user_container_frame.grid_columnconfigure(0, weight=1)
+        self.user_container_frame.grid_rowconfigure(1, weight=1)
 
         self.user_container_frame.tkraise()
 
     def fill_user_frame(self):
         self.user_header_frame = ctk.CTkFrame(self.user_container_frame, fg_color="transparent")
-        self.user_header_frame.grid(row=0, column=0, padx=20, pady=30, sticky="new")
+        self.user_header_frame.grid(row=0, column=0, padx=20, pady=60, sticky="new")
         self.user_header_frame.grid_columnconfigure(0, weight=1)
 
         self.user_main_frame = ctk.CTkFrame(self.user_container_frame, fg_color="transparent")
@@ -1387,6 +1444,8 @@ class PasswordManagerGUI:
             self.user_newusername_help_label.configure(text=result)
 
             if result == "Username changed successfully.":
+                self.user["username"] = username
+                self.change_welcome_label(username=username)
                 self.user_username_label2.configure(text=username)
 
     def update_password(self, current_password, password, repassword):
@@ -1443,6 +1502,7 @@ class PasswordManagerGUI:
             self.db = DatabaseManager()
             self.passgen = PasswordGenerator()
             self.pwman = None
+            self.selected_tools_frame = None
             
             self.main_container.destroy()
 
@@ -1458,6 +1518,13 @@ class PasswordManagerGUI:
 
 ###### <<<<<<<<<<<<<<<<<<<< Helpers >>>>>>>>>>>>>>>>>>>> #####
     
+    def change_welcome_label(self, username):
+        if len(username) > 10:
+            text_name = username[:8] + "..."
+            self.welcome_name_label.configure(text=f"🌟 {text_name} 🌟")
+        else:
+            self.welcome_name_label.configure(text=f"🌟 {username} 🌟")
+      
     def clear_frame(self, frame):
         for widget in frame.winfo_children():
             widget.destroy()  # Destroy all widgets in the frame
