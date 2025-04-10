@@ -1,6 +1,6 @@
 # PasswordManager
 
-A secure and minimalistic password manager application that allows users to store, retrieve, and manage their sensitive credentials locally. The application uses strong encryption to protect stored passwords and provides an easy-to-use interface for adding, updating, and deleting entries.
+A secure and minimalistic password manager GUI application that allows users to store, retrieve, and manage their sensitive credentials locally. The application uses strong encryption to protect stored passwords and provides an easy-to-use interface for adding, updating, and deleting entries.
 
 All data is encrypted using a master password, which is never stored anywhere. Without the correct master password, data cannot be decrypted.
 
