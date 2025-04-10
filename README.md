@@ -4,6 +4,8 @@ A secure and minimalistic password manager GUI application that allows users to 
 
 All data is encrypted using a master password, which is never stored anywhere. Without the correct master password, data cannot be decrypted.
 
+![Screenshot](/static/screenshot.png)
+
 ## Installation Guide
 
 Follow these steps to set up and run PasswordManager on your local machine:
