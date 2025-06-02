@@ -1788,6 +1788,7 @@ class PasswordManagerGUI:
         if self.selected_tools_frame is not None:
             self.selected_tools_frame.grid_forget()
         self.selected_tools_frame = self.stats_container_frame
+        self.fill_statistics_frame()
 
         self.root.title(
             f"Password Manager - Dashboard - User: {self.user['username']} - Statistics"
