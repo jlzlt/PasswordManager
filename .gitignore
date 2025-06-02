@@ -1,0 +1,15 @@
+# Build and distribution folders
+build/
+dist/
+*.spec
+
+# Python cache and virtualenvs
+__pycache__/
+venv/
+.venv/
+
+# Log files
+*.log
+
+# Database
+*.db
