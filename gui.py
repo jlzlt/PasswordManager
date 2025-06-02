@@ -4,6 +4,8 @@ import pandas as pd
 import threading
 import tkinter as tk
 import webbrowser
+import sys
+import os
 from auth import AuthManager
 from config import VERSION
 from CTkMessagebox import CTkMessagebox
@@ -11,6 +13,7 @@ from database import DatabaseManager
 from password_generator import PasswordGenerator
 from passwords_manager import PasswordsManager
 from PIL import Image
+from tkinter import PhotoImage
 
 
 class PasswordManagerGUI:
@@ -18,7 +21,7 @@ class PasswordManagerGUI:
         self.root = root
         self.center_window(400, 300)
         self.root.resizable(False, False)
-        self.root.iconbitmap("static/padlock.ico")
+        self.set_icon()
 
         # This is for handling delete confirmation box
         self.selected_pass_name = None
@@ -87,6 +90,18 @@ class PasswordManagerGUI:
         self.color_pass_name = "transparent"
         self.color_pass_name_hover = "#06402B"
         self.color_pass_name_selected = "#06402B"
+
+    def set_icon(self):
+        try:
+            if sys.platform == "win32":
+                icon_path = os.path.abspath("static/padlock.ico")
+                self.root.iconbitmap(icon_path)
+            else:
+                icon_path = os.path.abspath("static/padlock.png")
+                img = PhotoImage(file=icon_path)
+                self.root.iconphoto(False, img)
+        except Exception as e:
+            print(f"Icon error: {e}")
 
     ###### <<<<<<<<<<<<<<<<<<<< Login/Register >>>>>>>>>>>>>>>>>>>> #####
 
@@ -826,9 +841,6 @@ class PasswordManagerGUI:
         self.add_pass_win.transient(self.root)
         self.add_pass_win.lift()
         self.add_pass_win.focus_force()
-        self.add_pass_win.after(
-            250, lambda: self.add_pass_win.iconbitmap("static/padlock.ico")
-        )
         self.add_pass_win.grid_rowconfigure(0, weight=1)
         self.add_pass_win.grid_columnconfigure(0, weight=1)
 
