@@ -13,8 +13,12 @@ class TestDatabaseManager(unittest.TestCase):
         self.db.create_tables()
 
     def tearDown(self):
-        # Clean up the temporary database
-        os.unlink(self.temp_db.name)
+        # Now try to delete the temporary file
+        try:
+            os.unlink(self.temp_db.name)
+        except PermissionError:
+            # If we still can't delete it, that's okay - it will be cleaned up later
+            pass
 
     def test_create_tables(self):
         """Test that tables are created correctly"""

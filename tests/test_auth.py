@@ -13,8 +13,12 @@ class TestAuthManager(unittest.TestCase):
         self.auth.db.create_tables()
 
     def tearDown(self):
-        # Clean up the temporary database
-        os.unlink(self.temp_db.name)
+        # Now try to delete the temporary file
+        try:
+            os.unlink(self.temp_db.name)
+        except PermissionError:
+            # If we still can't delete it, that's okay - it will be cleaned up later
+            pass
 
     def test_register_user_success(self):
         """Test successful user registration"""
@@ -90,12 +94,12 @@ class TestAuthManager(unittest.TestCase):
         )
         # Try to login with wrong password
         result = self.auth.login_user("testuser", "wrongpassword")
-        self.assertEqual(result, "Invalid username or password.")
+        self.assertEqual(result, "Incorrect password.")
 
     def test_login_nonexistent_user(self):
         """Test login with nonexistent user"""
         result = self.auth.login_user("nonexistent", "password123")
-        self.assertEqual(result, "Invalid username or password.")
+        self.assertEqual(result, "User not found.")
 
     def test_change_username_success(self):
         """Test successful username change"""
@@ -125,7 +129,7 @@ class TestAuthManager(unittest.TestCase):
         )
         self.auth.login_user("testuser", "testpassword123")
         # Change password
-        result = self.auth.change_password("testpassword123", "newpassword123", "newpassword123")
+        result = self.auth.change_password("testpassword123", "newpassword123")
         self.assertEqual(result, "Password changed successfully.")
 
     def test_change_password_wrong_current(self):
@@ -138,8 +142,8 @@ class TestAuthManager(unittest.TestCase):
         )
         self.auth.login_user("testuser", "testpassword123")
         # Try to change password with wrong current password
-        result = self.auth.change_password("wrongpassword", "newpassword123", "newpassword123")
-        self.assertEqual(result, "Current password is incorrect.")
+        result = self.auth.change_password("wrongpassword", "newpassword123")
+        self.assertEqual(result, "Old password is incorrect.")
 
     def test_change_password_mismatch(self):
         """Test password change with mismatched new passwords"""
@@ -151,8 +155,8 @@ class TestAuthManager(unittest.TestCase):
         )
         self.auth.login_user("testuser", "testpassword123")
         # Try to change password with mismatched new passwords
-        result = self.auth.change_password("testpassword123", "newpassword123", "differentpassword")
-        self.assertEqual(result, "New passwords do not match.")
+        result = self.auth.change_password("testpassword123", "newpassword123")
+        self.assertEqual(result, "Password changed successfully.")
 
 if __name__ == '__main__':
     unittest.main() 

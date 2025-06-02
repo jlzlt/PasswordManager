@@ -18,6 +18,8 @@ class PasswordGenerator:
             n_symbols = 0
 
         # Validate inputs
+        if length <= 0:
+            raise ValueError("Password length must be positive")
         if n_digits < 0:
             raise ValueError("Number of digits cannot be negative")
         if n_symbols < 0:
