@@ -1,5 +1,0 @@
-echo "build/" >> .gitignore
-echo "__pycache__/" >> .gitignore
-echo "dist/" >> .gitignore
-echo "*.log" >> .gitignore
-echo "main.spec" >> .gitignore
