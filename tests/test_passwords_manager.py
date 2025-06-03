@@ -7,6 +7,7 @@ from auth import AuthManager
 from encryption import EncryptionManager
 
 class TestPasswordsManager(unittest.TestCase):
+    # Setup the test environment
     def setUp(self):
         # Create a temporary database file
         self.temp_db = tempfile.NamedTemporaryFile(delete=False)
@@ -36,14 +37,14 @@ class TestPasswordsManager(unittest.TestCase):
         # Clean up any existing entries
         self.pwman.db.execute_query("DELETE FROM passwords WHERE user_id = ?", (self.pwman.user_id,))
 
+    # Clean up the test environment
     def tearDown(self):
-        # Now try to delete the temporary file
         try:
             os.unlink(self.temp_db.name)
         except PermissionError:
-            # If we still can't delete it, that's okay - it will be cleaned up later
             pass
 
+    # Test adding a password entry successfully
     def test_add_entry_success(self):
         """Test adding a password entry successfully"""
         result = self.pwman.add_entry("Test Entry", "testuser", "testpass", "test.com", "Test comment")

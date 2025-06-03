@@ -3,6 +3,7 @@ import re
 from password_generator import PasswordGenerator
 
 class TestPasswordGenerator(unittest.TestCase):
+    # Setup the test environment
     def setUp(self):
         self.generator = PasswordGenerator()
 

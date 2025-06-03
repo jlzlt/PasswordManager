@@ -5,6 +5,7 @@ import sqlite3
 from database import DatabaseManager
 
 class TestDatabaseManager(unittest.TestCase):
+    # Setup the test environment
     def setUp(self):
         # Create a temporary database for testing
         self.temp_db = tempfile.NamedTemporaryFile(delete=False)
@@ -12,12 +13,11 @@ class TestDatabaseManager(unittest.TestCase):
         self.db = DatabaseManager(self.temp_db.name)
         self.db.create_tables()
 
+    # Clean up the test environment
     def tearDown(self):
-        # Now try to delete the temporary file
         try:
             os.unlink(self.temp_db.name)
         except PermissionError:
-            # If we still can't delete it, that's okay - it will be cleaned up later
             pass
 
     def test_create_tables(self):

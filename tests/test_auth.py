@@ -5,6 +5,7 @@ from auth import AuthManager
 from config import MIN_USERNAME_LENGTH, MIN_PASSWORD_LENGTH
 
 class TestAuthManager(unittest.TestCase):
+    # Setup the test environment
     def setUp(self):
         # Create a temporary database for testing
         self.temp_db = tempfile.NamedTemporaryFile(delete=False)
@@ -12,12 +13,11 @@ class TestAuthManager(unittest.TestCase):
         self.auth = AuthManager(self.temp_db.name)
         self.auth.db.create_tables()
 
+    # Clean up the test environment
     def tearDown(self):
-        # Now try to delete the temporary file
         try:
             os.unlink(self.temp_db.name)
         except PermissionError:
-            # If we still can't delete it, that's okay - it will be cleaned up later
             pass
 
     def test_register_user_success(self):
