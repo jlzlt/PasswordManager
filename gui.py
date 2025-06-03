@@ -22,6 +22,10 @@ class PasswordManagerGUI:
         self.center_window(400, 300)
         self.root.resizable(False, False)
         self.set_icon()
+        
+        # Make window focused on Mac
+        self.root.lift()
+        self.root.focus_force()
 
         # This is for handling delete confirmation box
         self.selected_pass_name = None
